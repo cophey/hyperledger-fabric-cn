@@ -2,7 +2,7 @@
 
 _证书授权_（CA）为区块链的用户提供了几个证书服务。更具体地说，这些服务涉及到区块链上的_用户注册_，_事务_调用和用户与区块链组件之间的_TLS_安全连接。
 
-本文内容基于[fabric开发者设置](../dev-setup/devenv.md)或[fabric网络设置](Network-setup.md)。如果你尚未根据上面两个文档中的任意一个设置环境，请先设置了再继续下文内容。
+本文内容基于[fabric开发者设置](../dev-setup/devenv.md)或[fabric网络设置](Network-setup.md)。如果你尚未根据这两个文档中的任意一个设置过环境，请先完成设置之后再继续下文。
 
 ### 注册证书授权服务
 
@@ -18,12 +18,12 @@ _注册证书授权服务_（ECA）允许新用户在区块链网络中注册，
 
 ## 配置
 
-所有的CA服务都是同一个进程提供的，可以通过设置`membersrvc.yaml`中的参数配置，该文件和CA的二进制可执行文件放在同一个目录下。更具体点说，有以下可以设置的参数：
+所有的CA服务都是同一个进程提供的，可以通过设置`membersrvc.yaml`中的参数来配置，该文件和CA的二进制可执行文件放在同一个目录下。更具体点说，有以下可以设置的参数：
 
 - `server.gomaxprocs`: 限制CA可以使用的操作系统线程数量。
 - `server.rootpath`: CA存储其状态的根目录。
 - `server.cadir`: CA存储其状态的目录的名称。
-- `server.port`: 所有的CA服务监听的端口号。（[GRPC](http://www.grpc.io)通过同一个端口对外提供多种服务）
+- `server.port`: 所有的CA服务所监听的端口（membersrvc利用[GRPC](http://www.grpc.io)通过同一个端口对外提供多种CA服务）。
 
 此外，通过调整下面的参数可以启用/禁用不同等级的日志：
 
@@ -42,7 +42,7 @@ _注册证书授权服务_（ECA）允许新用户在区块链网络中注册，
     MEMBERSRVC_CA_SERVER_PORT
 ```
 
-除此之外，CA可以预加载一些注册用户，可以像下面一样指定用户名，角色和密码：
+除此之外，CA能预加载一些注册用户，可以像下面一样指定用户名，角色和密码：
 
 ```
     eca:
@@ -134,7 +134,7 @@ vp0:
 
 ### 构建和运行
 
-在`membersrvc`目录下执行以下命令可以构建CA：
+在`membersrvc`目录中执行以下命令可以构建CA：
 
 ```
 cd $GOPATH/src/github.com/hyperledger/fabric
@@ -149,7 +149,7 @@ build/bin/membersrvc
 
 **注意：** CA必需要在任何fabric的peer节点之前启动，这样就可以保证CA完成初始化之后才有peer节点尝试连接它。
 
-CA会在$GOPATH/src/github.com/hyperledger/fabric/membersrvc目录下找`membersrvc.yaml`配置文件。如果CA是第一次启动，它会创建所有必需的状态（比如，内嵌数据库，CA证书，区块链密钥等），并把这些状态写到配置的目录下。
+CA会在$GOPATH/src/github.com/hyperledger/fabric/membersrvc目录下找`membersrvc.yaml`配置文件。如果CA是第一次启动，它会创建所有必需的状态（比如，内嵌数据库，CA证书，区块链密钥等），并将这些状态写入配置的目录下。
 
 <!-- 这里要谨记：
 
